@@ -2,6 +2,14 @@
 #this script will handle the installation and rebuilding of all sub-projects of khk-web
 #Joe Dailey
 
+pwd=$(pwd)
+ind="/opt/khk-web"
+if [ "$pwd" != "$ind" ]; then
+	echo Projects installed to the wrong directory.
+	echo Projects must be installed to /opt/khk-web.
+	exit 1
+fi
+
 echo Veryifying repo(s) are up to date.
 git pull
 git submodule init
