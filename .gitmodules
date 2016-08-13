@@ -1,0 +1,15 @@
+[submodule "khk-ssa"]
+	path = khk-ssa
+	url = git@github.com:/KappaEtaKappa/khk-ssa.git
+[submodule "khk-library"]
+	path = khk-library
+	url = git@github.com:/KappaEtaKappa/khk-library.git
+[submodule "khk-alumni-db"]
+	path = khk-alumni-db
+	url = git@github.com:/KappaEtaKappa/khk-alumni-db.git
+[submodule "khk-agendas"]
+	path = khk-agendas
+	url = git@github.com:/KappaEtaKappa/khk-agendas.git
+[submodule "khk-paparazzi"]
+	path = khk-paparazzi
+	url = git@github.com:/KappaEtaKappa/khk-paparazzi.git
