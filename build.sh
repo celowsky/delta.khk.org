@@ -10,7 +10,7 @@ if [ "$pwd" != "$ind" ]; then
 	exit 1
 fi
 
-echo Veryifying repo(s) are up to date.
+echo Veryifying repo\(s\) are up to date.
 git pull
 git submodule init
 git submodule update
@@ -28,35 +28,39 @@ sudo mkdir /etc/nginx/sites
 for D in `find . -maxdepth 1 -name "khk-*" -type d`
 do
 	echo Installing configuration for ${D#./}
-	cd ${D}
-	if [-f build.sh ]; then
-		/bin/bash build.sh
+	if cd ${D}; then
+		if /bin/bash build.sh; then
+			cd cp
+			#Move nginx conf into place and test configuration
+			site=$(find . -maxdepth 1 -name "*.site")
+			echo $site
+			if [ -f $site ]; then
+				sudo cp $site /etc/nginx/sites/.
+		        else
+				echo ${D#./} is missing a NGINX .site config. Please see the standards in the README.
+				exit 1
+			fi
+			echo Testing NGINX site config for ${D#./}. \(Previously loaded sites may have already broken NGINX\) 
+			sudo nginx -t
+			service=$(find . -maxdepth 1 -name "*.service")
+		        if [ -f $service ]; then
+		                sudo cp $service /etc/systemd/system/.
+				sudo systemctl daemon-reload
+				sudo systemctl enable ${service#./}
+				sudo systemctl start ${service#./}
+		        else
+		                echo Project located at ${D} is missing a systemd .service file. Please see the standards in the README.
+		                exit 1
+		        fi
+			echo ${D#./} has been successfully install. Please verify successfull operation:
+			sudo systemctl status ${service#./}
+			cd ../../
+		else
+			exit 1
+		fi
+	else
+		echo ${D#./} does not have a cp directory. Please see the standards in the README.
 	fi
-	cd cp
-	#Move nginx conf into place and test configuration
-	site=$(find . -maxdepth 1 -name "*.site")
-	if [-f $site ]; then
-		sudo cp $site /etc/nginx/sites/.
-        else
-		echo ${D#./} is missing a NGINX .site config. Please see the standards in the README.
-		exit 1
-	fi
-	if sudo nginx -t; then
-		echo ${D#./} has a misconfigured NGINX site. Please resolve and try again.
-		exit 1
-	fi
-	service=$(find . -maxdepth 1 -name "*.service")
-        if [-f $service ]; then
-                sudo cp $service /etc/systemd/system/.
-		sudo systemctl daemon-reload
-		sudo systemctl enable ${service#./}
-		sudo systemctl start ${service#./}
-        else
-                echo Project located at ${D} is missing a systemd .service file. Please see the standards in the README.
-                exit 1
-        fi
-	echo {D#./} has been successfully install. Please verify successfull operation:
-	sudo systemctl status ${service#./}
-	cd ../../
-done
 
+	sudo systemctl restart nginx.service
+done
