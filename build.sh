@@ -10,6 +10,18 @@ if [ "$pwd" != "$ind" ]; then
 	exit 1
 fi
 
+	
+if [ ! -d /opt/cert ]; then
+	echo Missing /opt/cert/. These files are crucial for SSO with Google Drive.
+	exit 1
+fi
+
+	
+if [ ! -d directory ]; then
+	echo Missing /opt/tls/. These files are crucial for HTTPS configuration.
+	exit 1
+fi
+
 echo Veryifying repo\(s\) are up to date.
 git pull
 git submodule init
@@ -64,3 +76,5 @@ do
 
 	sudo systemctl restart nginx.service
 done
+
+/bin/bash reload-apps.sh
