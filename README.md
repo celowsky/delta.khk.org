@@ -1,5 +1,5 @@
 # khk-web
->*Joseph Dailey*
+>*Created by Joseph Dailey*
 
 ##Purpose for Development
 >This repo exists to provide a base installation and maintenance suite for all of the platform's services.
