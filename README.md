@@ -42,7 +42,7 @@ This script will gather all applications [khk-ssa](https://github.com/KappaEtaKa
 ```bash
 # ./reset-users.sh
 ```
-This script will reload the users (currently admin and khk) This configuration is important as it manages privlege levels. The file does not contain the passwords but contains the hashes the of the know passwords. 
+This script will reload the users (currently admin and khk) This configuration is important as it manages privlege levels. The file does not contain the passwords but contains the hashes the of the known passwords. 
 
 
 
