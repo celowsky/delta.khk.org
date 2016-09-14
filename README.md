@@ -4,6 +4,11 @@
 ##Purpose for Development
 >This repo exists to provide a base installation and maintenance suite for all of the platform's services.
 
+##Development Needs
+>**If you intend to work on one of the submodules (khk-* services) you most likely don't need this full suite.**
+
+>*If the service you intend to work on relies on khk-ssa (home/sign-in/navbar) you still __don't__ need the full suite.*
+
 ##Installation
 ```bash
 # cd /opt
