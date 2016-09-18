@@ -17,7 +17,7 @@ if [ ! -d /opt/cert ]; then
 fi
 
 	
-if [ ! -d directory ]; then
+if [ ! -d /opt/tls ]; then
 	echo Missing /opt/tls/. These files are crucial for HTTPS configuration.
 	exit 1
 fi

@@ -13,3 +13,6 @@
 [submodule "khk-paparazzi"]
 	path = khk-paparazzi
 	url = git@github.com:/KappaEtaKappa/khk-paparazzi.git
+[submodule "khk-mail"]
+	path = khk-mail
+	url = git@github.com:/kappaetakappa/khk-mail.git
