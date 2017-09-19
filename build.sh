@@ -39,51 +39,14 @@ sudo mkdir /etc/nginx/sites -v
 #sub-project installation and configuration
 for D in `find . -maxdepth 1 -name "khk-*" -type d`
 do
-	echo :: Installing Nginx configuration for ${D#./}
-	if cd ${D}; then
-		if /bin/bash build.sh; then
-			cd cp
-			#Move nginx conf into place and test configuration
-			site=$(find . -maxdepth 1 -name "*.site")
-			echo $site
-			if [ -f $site ]; then
-				sudo cp $site /etc/nginx/sites/. -v
-		        else
-				echo !! ${D#./} is missing a NGINX .site config. Please see the standards in the README.
-				exit 1
-			fi
-			echo :: Testing updated NGINX site config for ${D#./}.
-			echo ::: \(Previously loaded sites may have already broken NGINX\) 
-			sudo nginx -t
-			service=$(find . -maxdepth 1 -name "*.service")
-		        if [ -f $service ]; then
-		                sudo cp $service /etc/systemd/system/.
-				sudo systemctl daemon-reload
-				sudo systemctl enable ${service#./}
-				sudo systemctl start ${service#./}
-		        else
-		                echo !! Project located at ${D} is missing a systemd *.service file.
-										echo !!! Please see the standards in the README.
-		                exit 1
-		        fi
-			echo ""
-			echo ""
-			echo ?? ${D#./} has been successfully installed. Please verify successfull operation:
-			echo ???  \(press \'q\' to continue\)
-			echo ""
-			echo ""
-			sudo systemctl status ${service#./}
-			echo ""
-			echo ""
-			cd ../../
-		else
-			exit 1
-		fi
-	else
-		echo !! ${D#./} does not have a cp directory. Please see the standards in the README.
-	fi
-
-	sudo systemctl restart nginx.service
+	echo :: Installing ${D#./}
+	cd ${D}
+  if /bin/bash build.sh; then
+	  echo :: Successfully Installed ${D#./} 
+  else
+	  echo !! Failed to Install ${D#./}
+  fi
+  sudo systemctl restart nginx.service
 done
 
 /bin/bash reload-apps.sh
