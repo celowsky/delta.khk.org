@@ -22,30 +22,32 @@ if [ ! -d /opt/tls ]; then
 	exit 1
 fi
 
-echo ::  Veryifying repo\(s\) are up to date.
+echo :: Veryifying Sub-Projects are up to Date
 git pull
 git submodule init
 git submodule update
 
-#custom nginx conf
-echo :: Installing main Nginx configuration
+echo :: Installing NGINX Conf
 if ! which nginx > /dev/null 2>&1; then
-	echo !! "Nginx not installed. Install and retry"
+	echo !! Nginx not installed. Install and retry
 	exit 1
 fi
 sudo cp ./nginx/nginx.conf /etc/nginx/. -v
 sudo mkdir /etc/nginx/sites -v
 
-#sub-project installation and configuration
+echo :: Build Sub-Projects
 for D in `find . -maxdepth 1 -name "khk-*" -type d`
 do
-	echo :: Installing ${D#./}
+	echo ""
+  echo ""
+  echo :: Installing ${D#./}
 	cd ${D}
   if /bin/bash build.sh; then
 	  echo :: Successfully Installed ${D#./} 
   else
 	  echo !! Failed to Install ${D#./}
   fi
+  cd ..
   sudo systemctl restart nginx.service
 done
 
