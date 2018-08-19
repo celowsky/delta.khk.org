@@ -18,14 +18,8 @@ if ! command -v node > /dev/null 2>&1; then
             sqlite3 \
             unzip 
 fi
-#
-## Copy ssh key to access KHK repositories
-#if [ ! -d /home/vagrant/.ssh ]; then
-#    echo "hey fix your shit"
-#    exit 1
-#fi
-#chmod 700 /home/vagrant/.ssh \
-#    && chmod 600 /home/vagrant/.ssh/$SSH_KEY_NAME
+
+# Use vagrant config.ssh.forward_agent and rely on host having valid ssh keys
 
 # Install all KHK project dependencies
 cd /opt/khk-web && bash build.sh
